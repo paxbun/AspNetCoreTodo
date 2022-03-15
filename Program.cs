@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using AspNetCoreTodo;
 using AspNetCoreTodo.Services.Implementations;
@@ -18,7 +19,10 @@ services.AddSwaggerGen(options =>
 });
 services.AddRouting(options => { options.LowercaseUrls = true; });
 services.AddControllers()
-    .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+    });
 services.AddServices();
 
 var app = builder.Build();
