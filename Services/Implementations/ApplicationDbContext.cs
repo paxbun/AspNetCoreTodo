@@ -61,6 +61,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             model.HasKey(m => m.Id);
             model.Property(m => m.Id)
                 .IsRequired();
+            model.Property<Guid>("_todoId")
+                .IsRequired()
+                .HasColumnName("TodoId");
             model.Property(m => m.CreationTime)
                 .IsRequired();
             model.Property(m => m.Body)
