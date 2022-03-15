@@ -13,7 +13,7 @@ public class CommentModel
     /// <summary>
     /// the ID of the To-Do item where this comment is attached
     /// </summary>
-    private Guid _todoId { get; }
+    private readonly Guid _todoId;
 
     /// <summary>
     /// when this comment was created
