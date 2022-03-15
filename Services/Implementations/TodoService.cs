@@ -17,7 +17,10 @@ public class TodoService : ITodoService
     public async Task<IEnumerable<Todo>> GetAllTodosAsync(ITodoService.TodoSortedBy? sortedBy, bool? includeComments,
         CancellationToken cancellationToken = default)
     {
-        IQueryable<TodoModel> query = _dbContext.Set<TodoModel>();
+        TodoModel[] models = await _dbContext.Set<TodoModel>().ToArrayAsync(cancellationToken);
+        IEnumerable<Todo> query = models.Select(todo => todo.ToViewModel(includeComments == true));
+
+        // SQLite does not support ordering with DateTimeOffset
         if (sortedBy is { } s)
         {
             switch (s)
@@ -34,9 +37,7 @@ public class TodoService : ITodoService
             }
         }
 
-        return await query
-            .Select(todo => todo.ToViewModel(includeComments == true))
-            .ToArrayAsync(cancellationToken);
+        return query.ToArray();
     }
 
     public async Task<Todo?> GetTodoByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -140,6 +141,7 @@ public class TodoService : ITodoService
             }
 
             CommentModel comment = todo.AddNewComment(command.Body);
+            _dbContext.Set<CommentModel>().Add(comment);
             _dbContext.Set<TodoModel>().Update(todo);
             await _dbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
