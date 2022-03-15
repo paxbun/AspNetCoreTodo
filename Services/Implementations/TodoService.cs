@@ -84,7 +84,7 @@ public class TodoService : ITodoService
 
             return todo.ToViewModel(true);
         }
-        catch (DbUpdateException ex)
+        catch (DbUpdateException)
         {
             return null;
         }
@@ -108,7 +108,7 @@ public class TodoService : ITodoService
 
             return true;
         }
-        catch (DbUpdateException ex)
+        catch (DbUpdateException)
         {
             return false;
         }
@@ -146,7 +146,7 @@ public class TodoService : ITodoService
 
             return comment.ToViewModel();
         }
-        catch (DbUpdateException ex)
+        catch (DbUpdateException)
         {
             return null;
         }
