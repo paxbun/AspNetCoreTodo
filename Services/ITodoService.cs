@@ -82,7 +82,7 @@ public interface ITodoService
     /// <param name="id">the ID of the To-Do item</param>
     /// <param name="cancellationToken"></param>
     /// <returns><c>true</c> if the item was present in the DB; <c>false</c> otherwise</returns>
-    public Task<bool> DeleteTodoAsync(Guid id, CancellationToken cancellationToken);
+    public Task<bool> DeleteTodoAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the collection of comments of the To-Do item with the given ID.
