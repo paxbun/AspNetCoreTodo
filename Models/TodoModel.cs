@@ -15,7 +15,6 @@ public class TodoModel
     /// </summary>
     public DateTimeOffset CreationTime { get; }
 
-
     /// <summary>
     /// the last time when this To-Do item was modified
     /// </summary>
@@ -36,7 +35,7 @@ public class TodoModel
         }
     }
 
-    private string _title;
+    private string _title = null!;
 
     /// <summary>
     /// the main content of the To-Do item
@@ -51,7 +50,7 @@ public class TodoModel
         }
     }
 
-    private string _body;
+    private string _body = null!;
 
     /// <summary>
     /// the <see cref="CommentModel"/>s attached to this To-Do item
@@ -85,5 +84,14 @@ public class TodoModel
         Comments.Add(newComment);
 
         return newComment;
+    }
+
+
+    /// <remarks>
+    /// Entity Framework Core requires a parameterless constructor defined in the model. Do not explicitly use this
+    /// constructor.
+    /// </remarks>
+    public TodoModel()
+    {
     }
 }

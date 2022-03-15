@@ -23,7 +23,7 @@ public class CommentModel
     /// <summary>
     /// the main content of the comment
     /// </summary>
-    public string Body { get; }
+    public string Body { get; } = null!;
 
     /// <summary>
     /// Attach a new comment to the given To-Do item.
@@ -36,5 +36,13 @@ public class CommentModel
         _todoId = todoModel.Id;
         CreationTime = DateTimeOffset.Now;
         Body = body;
+    }
+
+    /// <remarks>
+    /// Entity Framework Core requires a parameterless constructor defined in the model. Do not explicitly use this
+    /// constructor.
+    /// </remarks>
+    public CommentModel()
+    {
     }
 }
