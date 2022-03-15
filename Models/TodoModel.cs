@@ -30,8 +30,12 @@ public class TodoModel
         get => _title;
         set
         {
+            string v = value.Trim();
+            if (v.Length == 0)
+                throw new ArgumentException("title is empty");
+
             _updateTime = DateTimeOffset.Now;
-            _title = value;
+            _title = v;
         }
     }
 
@@ -45,8 +49,12 @@ public class TodoModel
         get => _body;
         set
         {
+            string v = value.Trim();
+            if (v.Length == 0)
+                throw new ArgumentException("body is empty");
+
             _updateTime = DateTimeOffset.Now;
-            _body = value;
+            _body = v;
         }
     }
 
@@ -66,8 +74,8 @@ public class TodoModel
     {
         Id = Guid.NewGuid();
         CreationTime = _updateTime = DateTimeOffset.Now;
-        _title = title;
-        _body = body;
+        Title = title;
+        Body = body;
     }
 
     /// <summary>
@@ -77,12 +85,8 @@ public class TodoModel
     /// <returns>the new comment created</returns>
     public CommentModel AddNewComment(string body)
     {
-        if (body.Trim().Length == 0)
-            throw new ArgumentException("body is empty", nameof(body));
-
         CommentModel newComment = new(this, body);
         Comments.Add(newComment);
-
         return newComment;
     }
 

@@ -32,6 +32,9 @@ public class CommentModel
     /// <param name="body">the main content of the comment</param>
     public CommentModel(TodoModel todoModel, string body)
     {
+        if (body.Trim().Length == 0)
+            throw new ArgumentException("body is empty", nameof(body));
+
         Id = Guid.NewGuid();
         _todoId = todoModel.Id;
         CreationTime = DateTimeOffset.Now;
