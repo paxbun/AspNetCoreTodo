@@ -106,8 +106,8 @@ public interface ITodoService
     /// <param name="id">the ID of the To-Do item</param>
     /// <param name="command"></param>
     /// <param name="cancellationToken"></param>
-    /// <returns>the new comment item added to the To-Do item</returns>
-    public Task<Comment> AddCommentAsync(
+    /// <returns>the new comment item added to the To-Do item; <c>null</c> it the To-Do item is not present in the DB.</returns>
+    public Task<Comment?> AddCommentAsync(
         Guid id,
         CommentPostModel command,
         CancellationToken cancellationToken = default
