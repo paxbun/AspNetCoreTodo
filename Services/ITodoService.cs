@@ -74,7 +74,7 @@ public interface ITodoService
     /// <param name="command"></param>
     /// <param name="cancellationToken"></param>
     /// <returns>the item if present; <c>null</c> otherwise</returns>
-    public Task<Todo?> PatchTodoAsync(Guid id, TodoPostModel command, CancellationToken cancellationToken = default);
+    public Task<Todo?> PatchTodoAsync(Guid id, TodoPatchModel command, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the To-Do item with the given ID.
