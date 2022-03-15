@@ -17,15 +17,21 @@ public interface ITodoService
     /// </summary>
     /// <param name="sortedBy">the name of the column by which the items are to be sorted</param>
     /// <param name="includeComments">whether to include comments in each item</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>the collection of To-Do items</returns>
-    public IEnumerable<Todo> GetAllTodos(TodoSortedBy? sortedBy, bool? includeComments);
+    public Task<IEnumerable<Todo>> GetAllTodosAsync(
+        TodoSortedBy? sortedBy,
+        bool? includeComments,
+        CancellationToken cancellationToken = default
+    );
 
     /// <summary>
     /// Returns the To-Do item with the given ID.
     /// </summary>
     /// <param name="id">the ID of the item</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>the item if present; <c>null</c> otherwise</returns>
-    public Todo? GetTodoById(Guid id);
+    public Task<Todo?> GetTodoByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     public class TodoPostModel
     {
@@ -43,8 +49,10 @@ public interface ITodoService
     /// <summary>
     /// Creates a new To-Do item based on the given command.
     /// </summary>
+    /// <param name="command"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns>the new To-Do item created</returns>
-    public Todo CreateNewTodo(TodoPostModel command);
+    public Task<Todo> CreateNewTodoAsync(TodoPostModel command, CancellationToken cancellationToken = default);
 
     public class TodoPatchModel
     {
@@ -64,22 +72,25 @@ public interface ITodoService
     /// </summary>
     /// <param name="id">the ID of the To-Do item</param>
     /// <param name="command"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns>the item if present; <c>null</c> otherwise</returns>
-    public Todo? PatchTodo(Guid id, TodoPostModel command);
+    public Task<Todo?> PatchTodoAsync(Guid id, TodoPostModel command, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the To-Do item with the given ID.
     /// </summary>
     /// <param name="id">the ID of the To-Do item</param>
+    /// <param name="cancellationToken"></param>
     /// <returns><c>true</c> if the item was present in the DB; <c>false</c> otherwise</returns>
-    public bool DeleteTodo(Guid id);
+    public Task<bool> DeleteTodoAsync(Guid id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Returns the collection of comments of the To-Do item with the given ID.
     /// </summary>
     /// <param name="id">the ID of the To-Do item</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>the collection of comments if the To-Do item is present in the DB; <c>null</c> otherwise</returns>
-    public IEnumerable<Comment>? GetCommentsOfTodo(Guid id);
+    public Task<IEnumerable<Comment>?> GetCommentsOfTodoAsync(Guid id, CancellationToken cancellationToken = default);
 
     public class CommentPostModel
     {
@@ -94,6 +105,11 @@ public interface ITodoService
     /// </summary>
     /// <param name="id">the ID of the To-Do item</param>
     /// <param name="command"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns>the new comment item added to the To-Do item</returns>
-    public Comment AddComment(Guid id, CommentPostModel command);
+    public Task<Comment> AddCommentAsync(
+        Guid id,
+        CommentPostModel command,
+        CancellationToken cancellationToken = default
+    );
 }
