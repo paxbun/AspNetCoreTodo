@@ -43,7 +43,7 @@ public class TodoModel
     /// </summary>
     public string Body
     {
-        get => _title;
+        get => _body;
         set
         {
             _updateTime = DateTimeOffset.Now;
