@@ -29,10 +29,9 @@ namespace AspNetCoreTodo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    TodoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     CreationTime = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    Body = table.Column<string>(type: "TEXT", nullable: false),
-                    TodoModelId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    TodoId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Body = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,23 +40,14 @@ namespace AspNetCoreTodo.Migrations
                         name: "FK_Comments_Todos_TodoId",
                         column: x => x.TodoId,
                         principalTable: "Todos",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Comments_Todos_TodoModelId",
-                        column: x => x.TodoModelId,
-                        principalTable: "Todos",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_TodoId",
                 table: "Comments",
                 column: "TodoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_TodoModelId",
-                table: "Comments",
-                column: "TodoModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Todos_CreationTime",
