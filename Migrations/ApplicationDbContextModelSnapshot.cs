@@ -30,11 +30,16 @@ namespace AspNetCoreTodo.Migrations
                     b.Property<DateTimeOffset>("CreationTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("TodoModelId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("_todoId")
                         .HasColumnType("TEXT")
                         .HasColumnName("TodoId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TodoModelId");
 
                     b.HasIndex("_todoId");
 
@@ -79,6 +84,10 @@ namespace AspNetCoreTodo.Migrations
                 {
                     b.HasOne("AspNetCoreTodo.Models.TodoModel", null)
                         .WithMany("Comments")
+                        .HasForeignKey("TodoModelId");
+
+                    b.HasOne("AspNetCoreTodo.Models.TodoModel", null)
+                        .WithMany("_comments")
                         .HasForeignKey("_todoId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
@@ -87,6 +96,8 @@ namespace AspNetCoreTodo.Migrations
             modelBuilder.Entity("AspNetCoreTodo.Models.TodoModel", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("_comments");
                 });
 #pragma warning restore 612, 618
         }
