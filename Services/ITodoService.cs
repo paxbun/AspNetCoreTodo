@@ -112,4 +112,17 @@ public interface ITodoService
         CommentPostModel command,
         CancellationToken cancellationToken = default
     );
+
+
+    /// <summary>
+    /// Removes the comment with the given ID from this To-Do item.
+    /// </summary>
+    /// <param name="id">the ID of the To-Do item</param>
+    /// <param name="commentId">the ID of the comment</param>
+    /// <param name="cancellationToken"></param>
+    public Task<bool> RemoveCommentAsync(
+        Guid id,
+        Guid commentId,
+        CancellationToken cancellationToken = default
+    );
 }

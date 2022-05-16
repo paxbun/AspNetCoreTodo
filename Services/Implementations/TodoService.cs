@@ -141,8 +141,6 @@ public class TodoService : ITodoService
             }
 
             CommentModel comment = todo.AddNewComment(command.Body);
-            _dbContext.Set<CommentModel>().Add(comment);
-            _dbContext.Set<TodoModel>().Update(todo);
             await _dbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
 
@@ -151,6 +149,31 @@ public class TodoService : ITodoService
         catch (DbUpdateException)
         {
             return null;
+        }
+    }
+
+    public async Task<bool> RemoveCommentAsync(Guid id, Guid commentId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await using IDbContextTransaction transaction = await _dbContext.BeginTransactionAsync(cancellationToken);
+
+            TodoModel? todo = await _dbContext.Set<TodoModel>().FindAsync(new object[] {id}, cancellationToken);
+            if (todo is null)
+            {
+                return false;
+            }
+
+            bool result = todo.RemoveComment(commentId);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+
+            return result;
+        }
+        catch (DbUpdateException)
+        {
+            return false;
         }
     }
 }
