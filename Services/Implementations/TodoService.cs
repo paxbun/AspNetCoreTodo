@@ -141,6 +141,7 @@ public class TodoService : ITodoService
             }
 
             CommentModel comment = todo.AddNewComment(command.Body);
+            _dbContext.Set<CommentModel>().Add(comment);
             await _dbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
 
