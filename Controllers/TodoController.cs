@@ -167,4 +167,18 @@ public class TodoController : ControllerBase
             return BadRequest(ex);
         }
     }
+
+    [HttpDelete("{todoId:guid}/comment/{commentId:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteCommentAsync(
+        [FromRoute] Guid todoId,
+        [FromRoute] Guid commentId
+    )
+    {
+        bool result = await _service.RemoveCommentAsync(todoId, commentId);
+        if (!result)
+            return NotFound();
+        return Ok();
+    }
 }
