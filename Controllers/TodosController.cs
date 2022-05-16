@@ -9,11 +9,11 @@ namespace AspNetCoreTodo.Controllers;
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
-public class TodoController : ControllerBase
+public class TodosController : ControllerBase
 {
     private readonly ITodoService _service;
 
-    public TodoController(ITodoService service)
+    public TodosController(ITodoService service)
     {
         _service = service;
     }
@@ -123,7 +123,7 @@ public class TodoController : ControllerBase
     /// </summary>
     /// <param name="todoId">the ID of the To-Do item</param>
     /// <returns>the collection of comments if the To-Do item is present in the DB</returns>
-    [HttpGet("{todoId:guid}/comment")]
+    [HttpGet("{todoId:guid}/comments")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<Comment>>> GetCommentsOfTodoAsync([FromRoute] Guid todoId)
@@ -143,7 +143,7 @@ public class TodoController : ControllerBase
     /// <param name="todoId">the ID of the To-Do item</param>
     /// <param name="command"></param>
     /// <returns>the new comment item added to the To-Do item</returns>
-    [HttpPost("{todoId:guid}/comment")]
+    [HttpPost("{todoId:guid}/comments")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -168,7 +168,7 @@ public class TodoController : ControllerBase
         }
     }
 
-    [HttpDelete("{todoId:guid}/comment/{commentId:guid}")]
+    [HttpDelete("{todoId:guid}/comments/{commentId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteCommentAsync(
