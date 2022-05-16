@@ -1,5 +1,6 @@
 using AspNetCoreTodo.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace AspNetCoreTodo.Services.Implementations;
@@ -47,7 +48,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             model.Property<string>("_body")
                 .IsRequired()
                 .HasColumnName("Body");
-            model.HasMany(m => m.Comments)
+            model.HasMany<CommentModel>("_comments")
                 .WithOne()
                 .HasForeignKey("_todoId")
                 .OnDelete(DeleteBehavior.ClientCascade);

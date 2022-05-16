@@ -60,10 +60,12 @@ public class TodoModel
 
     private string _body = null!;
 
+    private readonly IList<CommentModel> _comments = null!;
+
     /// <summary>
     /// the <see cref="CommentModel"/>s attached to this To-Do item
     /// </summary>
-    public IList<CommentModel> Comments { get; set; } = new List<CommentModel>();
+    public IEnumerable<CommentModel> Comments => _comments;
 
     /// <summary>
     /// Creates a new To-Do item.
@@ -76,6 +78,7 @@ public class TodoModel
         CreationTime = _updateTime = DateTimeOffset.Now;
         Title = title;
         Body = body;
+        _comments = new List<CommentModel>();
     }
 
     /// <summary>
@@ -86,10 +89,34 @@ public class TodoModel
     public CommentModel AddNewComment(string body)
     {
         CommentModel newComment = new(this, body);
-        Comments.Add(newComment);
+        _comments.Add(newComment);
         return newComment;
     }
 
+    /// <summary>
+    /// Removes the comment with the given ID from this To-Do item.
+    /// </summary>
+    /// <param name="id">the ID of the comment</param>
+    public bool RemoveComment(Guid id)
+    {
+        int idx = -1;
+        for (int i = 0; i < _comments.Count; ++i)
+        {
+            if (_comments[i].Id == id)
+            {
+                idx = i;
+                break;
+            }
+        }
+
+        if (idx != -1)
+        {
+            _comments.RemoveAt(idx);
+            return true;
+        }
+
+        return false;
+    }
 
     /// <remarks>
     /// Entity Framework Core requires a parameterless constructor defined in the model. Do not explicitly use this
