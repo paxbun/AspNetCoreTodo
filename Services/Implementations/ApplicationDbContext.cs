@@ -50,10 +50,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                 .HasColumnName("Body");
             model.HasMany<CommentModel>("_comments")
                 .WithOne()
-                .HasForeignKey("_todoId")
-                .OnDelete(DeleteBehavior.ClientCascade);
-            model.Navigation(m => m.Comments)
+                .HasForeignKey(m => m.TodoId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+            model.Navigation("_comments")
                 .AutoInclude();
+            model.Ignore(m => m.Comments);
         });
         modelBuilder.Entity<TodoModel>().ToTable("Todos");
 
@@ -62,9 +64,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             model.HasKey(m => m.Id);
             model.Property(m => m.Id)
                 .IsRequired();
-            model.Property<Guid>("_todoId")
-                .IsRequired()
-                .HasColumnName("TodoId");
+            model.Property(m => m.TodoId)
+                .IsRequired();
             model.Property(m => m.CreationTime)
                 .IsRequired();
             model.Property(m => m.Body)

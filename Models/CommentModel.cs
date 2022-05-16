@@ -13,7 +13,7 @@ public class CommentModel
     /// <summary>
     /// the ID of the To-Do item where this comment is attached
     /// </summary>
-    private readonly Guid _todoId;
+    public Guid TodoId { get; }
 
     /// <summary>
     /// when this comment was created
@@ -36,7 +36,7 @@ public class CommentModel
             throw new ArgumentException("body is empty", nameof(body));
 
         Id = Guid.NewGuid();
-        _todoId = todoModel.Id;
+        TodoId = todoModel.Id;
         CreationTime = DateTimeOffset.Now;
         Body = body;
     }
